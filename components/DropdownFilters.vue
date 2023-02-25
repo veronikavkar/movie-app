@@ -48,7 +48,7 @@ export default {
     color: white;
   }
   &__test {
-    color: black;
+    color: white;
   }
 }
 
