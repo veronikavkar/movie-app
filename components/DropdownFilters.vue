@@ -47,6 +47,9 @@ export default {
   &__content {
     color: white;
   }
+  &__test {
+    color: black;
+  }
 }
 
 .v-input--selection-controls__input .v-icon {
