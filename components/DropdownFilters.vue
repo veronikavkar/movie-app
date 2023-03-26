@@ -1,14 +1,14 @@
 <template>
   <v-list-group :value="false" class="filter">
     <template v-slot:activator>
-      <v-list-item-title class="filter__top">Фильтры</v-list-item-title>
+      <v-list-item-title class="filter__top">фильтры</v-list-item-title>
     </template>
     <v-spacer></v-spacer>
-    <v-list-item v-for="genre in genres" :key="genre">
+    <v-list-item v-for="{ genre } in splicaGenres" :key="genre.id">
       <v-list-item-content class="filter__content">
         <v-list-item-title>{{ genre }}</v-list-item-title>
       </v-list-item-content>
-      <v-list-item-action>
+      <v-list-item-action v-model="selectedGenres">
         <v-checkbox color="#FFEE58"></v-checkbox>
       </v-list-item-action>
     </v-list-item>
@@ -21,19 +21,13 @@ export default {
     return {
       multiLine: true,
       snackbar: false,
-      genres: [
-        "Комедии",
-        "Драмы",
-        "Ужасы",
-        "Боевики",
-        "Триллеры",
-        "Фантастика",
-        "Криминал",
-        "Биография",
-        "Военный",
-        "История",
-      ],
+      selectedGenres: [],
     };
+  },
+  computed: {
+    splicaGenres() {
+      return this.$store.state.genres.slice(9, 16);
+    },
   },
 };
 </script>
@@ -42,7 +36,7 @@ export default {
 .filter {
   width: 200px;
   &__top {
-    color: #ffee58;
+    color: white;
   }
   &__content {
     color: white;

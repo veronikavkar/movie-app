@@ -1,15 +1,20 @@
 <template>
   <div class="header">
     <div class="header__logo">
-      <img src="@/assets/images/logo.png" alt="" />
+      <NuxtLink to="/"> <img src="@/assets/images/logo.png" alt="" /></NuxtLink>
     </div>
-    <div>
-      <button class="header__btn">Сериалы</button>
-      <button class="header__btn">Фильмы</button>
-    </div>
+
     <div class="header__right">
       <searchButton />
-      <button class="header__btn">Фильтры</button>
+      <button class="header__btn" @click="openFavorites()">
+        Избранное
+        <v-badge
+          v-if="this.$store.state.favorites.length > 0"
+          dot
+          color="#c92502"
+        >
+        </v-badge>
+      </button>
     </div>
   </div>
 </template>
@@ -25,9 +30,12 @@ export default {
     },
   },
   methods: {
-    logout() {
-      this.$store.dispatch("logout");
-      this.$router.push("/login");
+    // logout() {
+    //   this.$store.dispatch("logout");
+    //   this.$router.push("/login");
+    // },
+    openFavorites() {
+      this.$router.push("/favorites/Favorites");
     },
   },
 };
@@ -43,7 +51,8 @@ export default {
 .header {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: -15px;
+  align-items: center;
   &__btn {
     border: none;
     background-color: inherit;
@@ -59,8 +68,11 @@ export default {
   }
   &__logo {
     img {
-      width: 150px;
+      width: 200px;
     }
   }
+}
+.v-badge--dot .v-badge__badge {
+  inset: auto auto calc(100% - -10px) calc(100% - 2px) !important;
 }
 </style>

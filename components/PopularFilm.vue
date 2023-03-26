@@ -1,7 +1,13 @@
 <template>
   <div class="container">
-    <h1 class="title">Смотри Топ-20 фильмов по версии Кинопоиска</h1>
-    <div class="wrapper">
+    <div v-if="$store.state.isLoading">
+      <Loading />
+    </div>
+    <!-- <div v-else-if="$store.state.searchedFilms.length > 1">
+      <SearchedFilms />
+    </div> -->
+    <div v-else class="wrapper">
+      <h1 class="title">Смотри Топ-20 фильмов по версии Кинопоиска</h1>
       <div
         class="carousel"
         :style="{ 'margin-left': '-' + 100 * currentSlideIndex + '%' }"
@@ -44,22 +50,22 @@
           </div>
         </div>
       </div>
+      <button v-if="currentFilmIndex > 0" class="arrow-prev" @click="prevSlide">
+        <b-icon icon="arrow-left" aria-hidden="true"></b-icon>
+      </button>
+      <button class="arrow-next" @click="nextSlide">
+        <b-icon icon="arrow-right" aria-hidden="true"></b-icon>
+      </button>
     </div>
-    <button v-if="currentFilmIndex > 0" class="arrow-prev" @click="prevSlide">
-      <b-icon icon="arrow-left" aria-hidden="true"></b-icon>
-    </button>
-    <button class="arrow-next" @click="nextSlide">
-      <b-icon icon="arrow-right" aria-hidden="true"></b-icon>
-    </button>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
+import Loading from "@/components/Loading.vue";
+import SearchedFilms from "@/components/SearchedFilms.vue";
 export default {
   name: "PopularFilm",
-
+  components: { Loading, SearchedFilms },
   data() {
     return {
       popularFilms: [],

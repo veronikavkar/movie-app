@@ -1,34 +1,95 @@
 <template>
-  <div class="search-tags">
-    <ul class="search-tags__list">
-      <li class="search-tags__item" v-for="genre in genres" :key="genre">
-        <button class="search-tags__btn">{{ genre }}</button>
-      </li>
-    </ul>
-    <DropdownFilters />
+  <div>
+    <div v-if="$store.state.isLoading">
+      <Loading />
+    </div>
+    <div v-else class="search-tags">
+      <ul class="search-tags__list">
+        <li
+          class="search-tags__item"
+          v-for="genre in spliceGenres"
+          :key="genre.id"
+        >
+          <button
+            class="search-tags__btn"
+            @click="selectGenre(genre)"
+            v-bind:class="{ 'selected-button': selectedGenre === genre.genre }"
+          >
+            {{ genre.genre }}
+          </button>
+        </li>
+      </ul>
+      <v-list-group :value="false" class="filter">
+        <template v-slot:activator>
+          <v-list-item-title class="filter__top">фильтры</v-list-item-title>
+        </template>
+        <v-spacer></v-spacer>
+        <v-list-item v-for="{ genre } in splicGenresInDropdown" :key="genre.id">
+          <v-list-item-content class="filter__content">
+            <v-list-item-title>{{ genre }}</v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-checkbox
+              :value="{ genre }"
+              v-model="selectedGenre"
+              color="#FFEE58"
+            ></v-checkbox>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list-group>
+    </div>
   </div>
 </template>
 
 <script>
-import DropdownFilters from "@/components/DropdownFilters.vue";
+import { mapGetters, mapActions, mapMutations } from "vuex";
+import Loading from "@/components/Loading.vue";
+
+// const genreIds = {
+//   DRAMA: 2,
+// };
+
 export default {
   name: "Filters",
-  components: { DropdownFilters },
+  components: { Loading },
   data() {
     return {
-      genres: [
-        "Комедии",
-        "Драмы",
-        "Ужасы",
-        "Боевики",
-        "Триллеры",
-        "Фантастика",
-        "Криминал",
-        "Биография",
-        "Военный",
-        "История",
-      ],
+      // selectedGenre: "",
+      // selectedGenres: [],
+      multiLine: true,
+      snackbar: false,
     };
+  },
+  computed: {
+    spliceGenres() {
+      return this.$store.state.genres.slice(0, 9);
+    },
+    splicGenresInDropdown() {
+      return this.$store.state.genres.slice(9, 16);
+    },
+    selectedGenre() {
+      return this.$store.state.selectedGenre;
+    },
+  },
+  mounted() {
+    this.$store.dispatch("fetchGenres");
+  },
+  watch: {
+    selectedGenres: {
+      handler() {
+        this.sselectedGenre = genre;
+        this.fetchFilmsByGenre(genre.id);
+      },
+    },
+  },
+  methods: {
+    ...mapActions(["fetchFilmsByGenre"]),
+    ...mapMutations(["SET_SELECTED_GENRE"]),
+    async selectGenre(genre) {
+      // this.$store.state.selectedGenre = genre.genre;
+      this.SET_SELECTED_GENRE(genre.genre);
+      await this.fetchFilmsByGenre(genre.id);
+    },
   },
 };
 </script>
@@ -51,7 +112,7 @@ export default {
     content: "";
     position: absolute;
     width: 100%;
-    background: #c90000;
+    background: #ffee58;
     height: 3px;
     left: 0;
     bottom: 0;
@@ -63,5 +124,28 @@ export default {
   &__btn:hover::after {
     transform: scale(1, 1);
   }
+}
+
+.selected-button {
+  content: "";
+  background: #ffee58;
+  height: 3px;
+  flex-direction: column-reverse;
+}
+.filter {
+  width: 200px;
+  &__top {
+    color: white;
+  }
+  &__content {
+    color: white;
+  }
+}
+
+.v-input--selection-controls__input .v-icon {
+  color: white !important;
+}
+.v-list-group__header__append-icon .v-icon {
+  color: #ffee58 !important;
 }
 </style>
