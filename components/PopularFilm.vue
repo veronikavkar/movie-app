@@ -3,9 +3,7 @@
     <div v-if="$store.state.isLoading">
       <Loading />
     </div>
-    <!-- <div v-else-if="$store.state.searchedFilms.length > 1">
-      <SearchedFilms />
-    </div> -->
+
     <div v-else class="wrapper">
       <h1 class="title">Смотри Топ-20 фильмов по версии Кинопоиска</h1>
       <div
@@ -44,7 +42,9 @@
               {{ film.description || null }}
             </p>
             <div class="film__button">
-              <button class="btn-disable">Смотреть трейлер</button>
+              <button class="btn-trailer" @click="openTrailer">
+                Смотреть трейлер
+              </button>
               <button class="btn-global">Смотреть фильм</button>
             </div>
           </div>
@@ -63,6 +63,7 @@
 <script>
 import Loading from "@/components/Loading.vue";
 import SearchedFilms from "@/components/SearchedFilms.vue";
+import { mapActions } from "vuex";
 export default {
   name: "PopularFilm",
   components: { Loading, SearchedFilms },
@@ -71,12 +72,14 @@ export default {
       popularFilms: [],
       currentFilmIndex: 0,
       currentSlideIndex: 0,
+      trailers: [],
     };
   },
 
   async mounted() {
     await this.fetchFilms();
     await this.getFilmById(this.idForCurrentFilm);
+    this.trailers = await this.getVideosById(this.idForCurrentFilm);
   },
 
   computed: {
@@ -89,6 +92,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(["getVideosById"]),
     async fetchFilms() {
       const { films } = await this.$axios.$get(
         "/api/v2.2/films/top?type=TOP_250_BEST_FILMS&page=1"
@@ -100,12 +104,15 @@ export default {
         this.currentFilmIndex--;
         this.currentSlideIndex--;
         await this.getFilmById(this.idForCurrentFilm);
+        this.trailers = await this.getVideosById(this.idForCurrentFilm);
+        console.log(this.trailers, "trailers");
       }
     },
     async nextSlide() {
       this.currentFilmIndex++;
       this.currentSlideIndex++;
       await this.getFilmById(this.idForCurrentFilm);
+      this.trailers = await this.getVideosById(this.idForCurrentFilm);
     },
 
     async getFilmById(id) {
@@ -115,19 +122,17 @@ export default {
         this.$set(this.currentFilm, key, value);
       });
     },
+    openTrailer() {
+      window.open(this.trailers[0].url);
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .container {
-  //height: 600px;
-  //display: flex;
   justify-content: center;
   margin-top: 50px;
-  // @media (min-width: 750px) {
-  //   height: 500px;
-  // }
 }
 .title {
   font-size: 42px;
@@ -153,7 +158,7 @@ export default {
   display: flex;
   flex-direction: row;
   min-width: 1000px;
-  // flex-wrap: wrap;
+
   &__img {
     img {
       height: 300px;
@@ -180,11 +185,6 @@ export default {
   &__description {
     color: #bdbdbd;
     font-size: 15px;
-    // overflow: hidden;
-    // display: -webkit-box;
-    // -webkit-box-orient: vertical;
-    // -webkit-line-clamp: 3; /* start showing ellipsis when 3rd line is reached */
-    // white-space: pre-wrap; /* let the text wrap preserving spaces */
   }
   &__button {
     padding-top: 20px;
@@ -209,7 +209,7 @@ export default {
   right: 40px;
   top: 300px;
 }
-.btn-disable {
+.btn-trailer {
   display: inline-block;
   text-decoration: none;
   color: inherit;
@@ -218,7 +218,10 @@ export default {
   border: none;
   color: #fff;
   border-radius: 78px;
-  cursor: not-allowed;
+  cursor: pointer;
   margin-right: 10px;
+}
+.btn-global {
+  cursor: not-allowed;
 }
 </style>

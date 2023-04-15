@@ -13,7 +13,12 @@
 
     <keep-alive>
       <transition name="component-fade" mode="out-in">
-        <component :is="selectedTab" :film="film" class="tab"></component>
+        <component
+          :is="selectedTab"
+          :film="film"
+          :trailers="trailers"
+          class="tab"
+        ></component>
       </transition>
     </keep-alive>
     <SimilarFilms :similar-films="similarFilms" />
@@ -21,6 +26,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import AboutFilm from "@/components/AboutFilm.vue";
 import FilmDetailes from "@/components/FilmDetailes.vue";
 import SimilarFilms from "@/components/SimilarFilms.vue";
@@ -33,6 +39,7 @@ export default {
   transition: "home",
   data() {
     return {
+      trailers: [],
       film: {
         nameRu: null,
         genres: [],
@@ -54,8 +61,10 @@ export default {
   async fetch() {
     await this.getFilmById(this.id);
     await this.fetchSimilarFilms(this.id);
+    this.trailers = await this.getVideosById(this.id);
   },
   methods: {
+    ...mapActions(["getVideosById"]),
     async getFilmById(id) {
       const data = await this.$axios.$get(`/api/v2.2/films/${id}`);
 

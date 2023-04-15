@@ -45,11 +45,6 @@ export default {
     },
   },
   watch: {
-    // searchInput(newValue, oldValue) {
-    //   setTimeout(() => {
-    //     this.searchMovies(newValue);
-    //   }, 2000);
-    // },
     searchInput(newValue, oldValue) {
       this.searchMovies(newValue);
     },

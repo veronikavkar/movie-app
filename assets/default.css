@@ -23,15 +23,7 @@ body {
   cursor: pointer;
   transition: 0.3s ease all;
   border-radius: 78px;
-}
-
-.button-light {
-  background-color: transparent;
-  border: 1px solid #c92502;
-
-  /* &:hover {
-    border-color: transparent;
-  } */
+  cursor: not-allowed;
 }
 
 .container {

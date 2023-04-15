@@ -51,7 +51,7 @@ export default {
 .header {
   display: flex;
   justify-content: space-between;
-  margin-top: -15px;
+  margin-top: 10px;
   align-items: center;
   &__btn {
     border: none;
@@ -68,7 +68,7 @@ export default {
   }
   &__logo {
     img {
-      width: 200px;
+      width: 140px;
     }
   }
 }

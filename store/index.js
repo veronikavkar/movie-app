@@ -57,6 +57,9 @@ export const mutations = {
   SET_LOCAL_STORAGE(state, favorites) {
     state.favorites = favorites;
   },
+  CLEAR_FILTERS(state) {
+    state.selectedGenre = "";
+  },
 };
 
 export const actions = {
@@ -122,6 +125,14 @@ export const actions = {
   initLocalStorage({ commit }) {
     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
     commit("SET_LOCAL_STORAGE", favorites);
+  },
+  async getVideosById(context, id) {
+    try {
+      const { items } = await this.$axios.$get(`/api/v2.2/films/${id}/videos`);
+      return items;
+    } catch (error) {
+      console.log(error.response);
+    }
   },
 };
 

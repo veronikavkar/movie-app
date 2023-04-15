@@ -24,15 +24,16 @@
           <v-list-item-title class="filter__top">фильтры</v-list-item-title>
         </template>
         <v-spacer></v-spacer>
-        <v-list-item v-for="{ genre } in splicGenresInDropdown" :key="genre.id">
+        <v-list-item v-for="genre in splicGenresInDropdown" :key="genre.id">
           <v-list-item-content class="filter__content">
-            <v-list-item-title>{{ genre }}</v-list-item-title>
+            <v-list-item-title>{{ genre.genre }}</v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>
             <v-checkbox
-              :value="{ genre }"
               v-model="selectedGenre"
+              :value="genre.genre"
               color="#FFEE58"
+              @click="selectGenre(genre)"
             ></v-checkbox>
           </v-list-item-action>
         </v-list-item>
@@ -45,17 +46,11 @@
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import Loading from "@/components/Loading.vue";
 
-// const genreIds = {
-//   DRAMA: 2,
-// };
-
 export default {
   name: "Filters",
   components: { Loading },
   data() {
     return {
-      // selectedGenre: "",
-      // selectedGenres: [],
       multiLine: true,
       snackbar: false,
     };
@@ -67,26 +62,22 @@ export default {
     splicGenresInDropdown() {
       return this.$store.state.genres.slice(9, 16);
     },
-    selectedGenre() {
-      return this.$store.state.selectedGenre;
+
+    selectedGenre: {
+      get() {
+        return this.$store.state.selectedGenre;
+      },
+      set(genre) {},
     },
   },
   mounted() {
     this.$store.dispatch("fetchGenres");
   },
-  watch: {
-    selectedGenres: {
-      handler() {
-        this.sselectedGenre = genre;
-        this.fetchFilmsByGenre(genre.id);
-      },
-    },
-  },
+
   methods: {
     ...mapActions(["fetchFilmsByGenre"]),
     ...mapMutations(["SET_SELECTED_GENRE"]),
     async selectGenre(genre) {
-      // this.$store.state.selectedGenre = genre.genre;
       this.SET_SELECTED_GENRE(genre.genre);
       await this.fetchFilmsByGenre(genre.id);
     },

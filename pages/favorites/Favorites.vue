@@ -39,6 +39,7 @@ export default {
 .title {
   font-size: 22px;
   color: white;
+  margin-top: 30px;
 }
 .favorites {
   display: flex;
@@ -50,6 +51,7 @@ export default {
   flex-direction: column;
   padding-right: 20px;
   margin-bottom: 30px;
+  cursor: pointer;
   &__year {
     color: #bdbdbd;
     font-size: 12px;

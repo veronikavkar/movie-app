@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -34,6 +33,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("fetchFilms");
+    this.$store.commit("CLEAR_FILTERS");
   },
   computed: {
     selectedGenre() {
@@ -67,6 +67,7 @@ export default {
   padding-right: 35px;
   margin-bottom: 30px;
   height: 400px;
+  cursor: pointer;
   &__year {
     color: #bdbdbd;
     font-size: 14px;

@@ -1,9 +1,5 @@
 <template>
   <div>
-    <!-- <button class="btn-back" @click="goToPrev()">
-      <b-icon icon="arrow-left" aria-hidden="true"></b-icon>
-      На главную
-    </button> -->
     <div class="dropdown">
       <div
         class="movie"
@@ -34,10 +30,6 @@ export default {
     openFilm(filmId) {
       this.$router.push(`/films/${filmId}/`);
     },
-    // goToPrev() {
-    //   console.log("goToPrev");
-    //   this.$router.push("/");
-    // },
   },
 };
 </script>

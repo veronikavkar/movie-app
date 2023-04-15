@@ -28,7 +28,7 @@
               <v-icon color="#FFFFFF">mdi mdi-play</v-icon>
               <span>Смотреть фильм</span>
             </button>
-            <button class="btn-trailer">Трейлер</button>
+            <button class="btn-trailer" @click="openTrailer">Трейлер</button>
             <button
               class="btn-favorites"
               @click.stop="addFilmToFavorites(film)"
@@ -53,6 +53,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    trailers: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   computed: {
@@ -65,6 +69,11 @@ export default {
   },
   methods: {
     ...mapActions(["addFilmToFavorites"]),
+    openTrailer() {
+      if (this.trailers.length > 0) {
+        window.open(this.trailers[0].url);
+      }
+    },
   },
 };
 </script>
@@ -141,6 +150,9 @@ export default {
   transition: 0.3s ease all;
   border-radius: 55%;
   margin-left: 10px;
+}
+.btn-global {
+  cursor: not-allowed;
 }
 .fade-enter-active,
 .fade-leave-active {
