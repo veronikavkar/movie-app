@@ -12,7 +12,7 @@ I decided to make this project for educational purposes while studying Nuxt 2.
 
 <img src="main_page.png"  width="700">
 
-The response from the server provides an object with information about the movie
+The response from the server provides an object with information about the movie.
 <img src="api.png"  width="700">
 
 ✔️ The ability to filter movies by genre.
