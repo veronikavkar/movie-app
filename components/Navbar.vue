@@ -30,22 +30,12 @@ export default {
     },
   },
   methods: {
-    // logout() {
-    //   this.$store.dispatch("logout");
-    //   this.$router.push("/login");
-    // },
     openFavorites() {
       this.$router.push("/favorites/Favorites");
     },
   },
 };
 </script>
-
-<style>
-/* .navbar-expand-lg .navbar-nav .nav-link {
-  color: darkgrey;
-} */
-</style>
 
 <style lang="scss">
 .header {
@@ -73,6 +63,6 @@ export default {
   }
 }
 .v-badge--dot .v-badge__badge {
-  inset: auto auto calc(100% - -10px) calc(100% - 2px) !important;
+  inset: auto auto calc(100% - -8px) calc(100% - 0px) !important;
 }
 </style>

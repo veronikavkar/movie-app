@@ -78,7 +78,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .single-movie {
   display: flex;
   margin-top: 50px;

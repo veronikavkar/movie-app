@@ -34,7 +34,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .dropdown {
   display: flex;
   flex-wrap: wrap;

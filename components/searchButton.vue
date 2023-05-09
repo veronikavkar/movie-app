@@ -59,10 +59,6 @@ export default {
       this.searchInput = "";
       this.isSearchOpen = true;
     },
-    // exit() {
-    //   this.searchInput = "";
-    //   this.isSearchOpen = false;
-    // }
     exit() {
       setTimeout(() => {
         this.isSearchOpen = false;
@@ -88,7 +84,7 @@ export default {
   display: block;
   font-size: 0.8em;
   padding: 6px;
-  // min-width: 250px;
+
   min-width: 350px;
   &:hover {
     background: #f8f8fa;

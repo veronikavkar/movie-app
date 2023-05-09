@@ -42,7 +42,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .members {
   p {
     font-size: 16px;
@@ -55,27 +55,4 @@ export default {
     font-size: 18px;
   }
 }
-
-// .list-enter-active,
-// .list-leave-active {
-//   transition: all 1s ease;
-// }
-
-// .list-enter,
-// .list-leave-to {
-//   transform: translateY(-100%);
-// }
-// .list-leave-to {
-//   transform: translateY(0%);
-// }
-
-// @keyframes fade-in {
-//   0% {
-//     opacity: 0;
-//     transform: translateY(20px);
-//   }
-//   100% {
-//     transform: translateY(0px);
-//   }
-// }
 </style>
